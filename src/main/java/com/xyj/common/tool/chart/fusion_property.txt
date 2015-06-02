@@ -1,0 +1,298 @@
+1.	* bgColor=”HexColorCode” : 设置flash的背景颜色     
+2.	* bgAlpha=”NumericalValue(0-100)” : 设置背景的透明度     
+3.	* bgSWF=”Path of SWF File” : 设置一个外部的Flash 为flash的背景     
+4.	图表背景参数：     
+5.	* canvasBgColor=”HexColorCode” : 设置图表背景的颜色     
+6.	* canvasBaseColor=”HexColorCode” : 设置图表基部的颜色     
+7.	* canvasBaseDepth=”Numerical Value” : 设置图表基部的高度     
+8.	* canvasBgDepth=”Numerical Value” : 设置图表背景的深度     
+9.	* showCanvasBg=”1/0″ : 设置是否显示图表背景     
+10.	* showCanvasBase=”1/0″ : 设置是否显示图表基部     
+11.	图表和轴的标题     
+12.	* caption=”String” : 图表上方的标题     
+13.	* subCaption=”String” : 图表上方的副标题     
+14.	* xAxisName= “String” : X轴的名字     
+15.	* yAxisName= “String” : y轴的名字     
+16.	图表数量值的限制     
+17.	* yAxisMinValue=”value”: y轴最小值     
+18.	* yAxisMaxValue=”value”: y舟最大值     
+19.	通用参数     
+20.	* shownames=”1/0″ : 设置是否在x轴下显示<set>里指定的name     
+21.	* showValues=”1/0″ : 设置是否在柱型图或饼型图上显示数据的值     
+22.	* showLimits=”1/0″ : 设置是否在图表的y轴坐标上显示最大最小的数据值     
+23.	* rotateNames=”1/0″ : 设置x轴下的name 是水平显示还是垂直显示     
+24.	* animation=”1/0″ : 设置柱型图的显示是否是动画显示     
+25.	字体属性     
+26.	* baseFont=”FontName” : 设置字体样式     
+27.	* baseFontSize=”FontSize” : 设置字体大小     
+28.	* baseFontColor=”HexColorCode” : 设置字体颜色     
+29.	* outCnvBaseFont = “FontName” : 设置图表外侧的字体样式     
+30.	* outCnvBaseFontSze=”FontSize” : 设置图表外侧的字体大小     
+31.	* outCnvBaseFontColor=”HexColorCode”: 设置图表外侧的字体颜色     
+32.	数字格式选项     
+33.	* numberPrefix=”$” : 设置数据值的前缀     
+34.	* numberSuffix=”p.a” : 设置数据值的后缀（如果是特殊字符，需要使用URL Encode重编码）     
+35.	* formatNumber=”1/0″ : 设置是否格式化数据     
+36.	* formatNumberScale=”1/0″ : 设置是否用“K”来代表千，“M”来代表百万     
+37.	* decimalSeparator=”.” : 用指定的字符来代替小数点     
+38.	* thousandSeparator=”,” : 用指定的字符来代替千位分隔符     
+39.	* decimalPrecision=”2″ : 设置十进制的精度     
+40.	* divLineDecimalPrecision=”2″: 设置y轴数值的小数位数     
+41.	* limitsDecimalPrecision=”2″ : 设置y轴的最大最小值的小数位数     
+42.	水平分隔线     
+43.	* numdivlines=”NumericalValue” : 设置水平分隔线的数量     
+44.	* divlinecolor=”HexColorCode” : 设置水平分隔线的颜色     
+45.	* divLineThickness=”NumericalValue” : 设置水平分隔线的宽度     
+46.	* divLineAlpha=”NumericalValue0-100″ : 设置水平分隔线的透明度     
+47.	* showDivLineValue=”1/0″ : 设置是否显示水平分隔线的数值     
+48.	鼠标旋停参数     
+49.	* showhovercap=”1/0″ : 显示是否激活鼠标旋停效果     
+50.	* hoverCapBgColor=”HexColorCode” : 设置鼠标旋停效果的背景颜色     
+51.	* hoverCapBorderColor=”HexColorCode” : 设置鼠标旋停效果的边框颜色     
+52.	* hoverCapSepChar=”Char” : 设置鼠标旋停后显示的文本中的分隔符号     
+53.	图表边距的设置     
+54.	* chartLeftMargin=”Numerical Value (in pixels)” : 设置图表左边距     
+55.	* chartRightMargin=”Numerical Value (in pixels)” : 设置图表右边距     
+56.	* chartTopMargin=”Numerical Value (in pixels)” : 设置图表上边距     
+57.	* chartBottomMargin=”Numerical Value (in pixels)” : 设置图表下边距     
+58.	Zero Plane     
+59.	The zero plane is a 3D plane that signifies the 0 position on the chart. If there are no negative numbers on the chart, you won’t see a visible zero plane.     
+60.	* zeroPlaneShowBorder=”1/0″ : Whether the border of a 3D zero plane would be plotted or not.     
+61.	* zeroPlaneBorderColor=”Hex Code” : If the border is to be plotted, this attribute sets the border color for the plane.     
+62.	* zeroPlaneColor=”Hex Code” : The intended color for the zero plane.     
+63.	* zeroPlaneAlpha=”Numerical Value 0-100″ : The intended transparency for the zero plane.     
+64.	   
+65.	<set> 所具有的属性     
+66.	* name=”string” : 设置在图表中体现出来的名字     
+67.	Example: <set name=’Jan’ …>     
+68.	* value=”NumericalValue” : 设置在图表中各个名字想对应的值     
+69.	Example: <set name=’Jan’ value=’12345′ …>     
+70.	* color=”HexCode” : 设置在图表中相对应的柱行图的颜色     
+71.	Example: <set name=’Jan’ value=’12345′ color=’636363′ …>     
+72.	* hoverText=”String value” : 设置鼠标旋停在相对应的柱行图 上出现的文本内容     
+73.	Example: <set name=’Jan’ value=’12345′ color=’636363′ hoverText=’January’…>     
+74.	* link=”URL” : 设置该柱行图的链接地址（需要URL Encode重编码）     
+75.	Example: <set … link=’ShowDetails.asp%3FMonth=Jan’ …>     
+76.	* alpha=”Numerical Value 0-100″ : 设置在图表中相对应的柱行图的透明度     
+77.	Example: <set … alpha=’100′ …>     
+78.	* showName=”1″ : 设置在是否显示图表中相对应的柱行图的name     
+79.	Example : <set … showName=”1″ …>    
+80.	   
+81.	////////////////////////////////////////////////////////////////////////////////////////////    
+82.	   
+83.	ANCHORS 锚点 用于标识line或area的数值点    
+84.	支持效果 Animation 动画、Shadow 阴影、Glow 发光、Bevel 倾斜、Blur 模糊    
+85.	动画属性 _alpha、_x、_y、_xScale、_yScale    
+86.	BACKGROUND 整个图表的背景    
+87.	支持属性 Animation、Shadow、Glow、Bevel、Blur    
+88.	动画属性 _alpha、_x、_y、_xScale、_yScale    
+89.	CANVAS 区域图中的区域    
+90.	支持属性 Animation、Shadow、Glow、Bevel、Blur    
+91.	动画属性 _alpha、_x、_y、_xScale、_yScale    
+92.	CAPTION 图表标题    
+93.	SUBCAPTION 图表子标题    
+94.	支持属性 Animation、Shadow、Glow、Bevel、Blur、Font 字体    
+95.	动画属性 _alpha、_x、_y    
+96.	DATALABELS 数据的x轴标签列表    
+97.	支持属性 Animation、Shadow、Glow、Bevel、Blur、Font 字体    
+98.	动画属性 _alpha、_x、_y    
+99.	DATAPLOT 数据细节（如：2D图表中的列）    
+100.	支持属性 Animation、Shadow、Glow、Bevel、Blur    
+101.	动画属性 _alpha、_x、_y、_xScale、_yScale    
+102.	DATAVALUES 图表数据    
+103.	支持属性 Animation、Shadow、Glow、Bevel、Blur、Font 字体    
+104.	动画属性 _alpha、_x、_y    
+105.	DIVLINES 水平的列表区域(由div组成的线)    
+106.	支持属性 Animation、Shadow、Glow、Bevel、Blur    
+107.	动画属性 _alpha、_x、_y、_xScale    
+108.	HGRID 水平的两个列表区域中交替的颜色    
+109.	支持属性 Animation、Shadow、Glow、Bevel、Blur    
+110.	动画属性 _alpha、_x、_y、_xScale、_yScale    
+111.	VDIVLINES 垂直的列表区域    
+112.	VGRID 垂直的两个列表区域中交替的颜色    
+113.	VLINES 垂直分割线    
+114.	XAXISNAME x轴名称    
+115.	YAXISNAME y轴名称    
+116.	YAXISVALUES y轴的值列表    
+117.	   
+118.	   
+119.	TOOLTIP 在鼠标移动到数据点上的时候的提示    
+120.	支持属性 Font    
+121.	TRENDLINES 趋势线    
+122.	TRENDVALUES    
+123.	chart    
+124.	Functional Attributes    
+125.	animation bool 是否使用动画    
+126.	palette number(1-5) 使用默认的调色板    
+127.	connectNullData bool 是否呈现空值（？猜测）    
+128.	showLabels bool 是否显示标签    
+129.	labelDisplay string (WRAP,STAGGER,ROTATE or NONE ) 标签的呈现方式（超长屏蔽、折行、倾斜还是不显示）    
+130.	rotateLabels bool    
+131.	slantLabels bool x轴说明文字是否倾斜（1/0）    
+132.	labelStep number (1 or above)    
+133.	staggerLines number (2 or above) 多少个字符后折行（labelDisplay=stagger）    
+134.	showValues bool 是否一直显示数据值在数据点上    
+135.	rotateValues bool 是否滚动显示值 （showValues=1）    
+136.	showYAxisValues bool 是否显示y轴数据    
+137.	showLimits bool    
+138.	showDivLineValues bool    
+139.	yAxisValuesStep number (1 or above) y轴标记的显示间隔    
+140.	adjustDiv bool 自动调整divlines    
+141.	rotateYAxisName bool    
+142.	yAxisNameWidth number (In Pixels)    
+143.	clickURL String 图表的焦点链接地址    
+144.	defaultAnimation bool 是否开启默认动画    
+145.	yAxisMinValue number Y轴中最小值    
+146.	yAxisMaxValue number Y轴中最大值    
+147.	setAdaptiveYMin    
+148.	Chart Titles and Axis Names    
+149.	caption    
+150.	subCaption    
+151.	xAxisName    
+152.	yAxisName    
+153.	Chart Cosmetics    
+154.	bgColor color 可以使用逗号分割多个颜色值 FF5904,FFFFFF    
+155.	bgAlpha number (0-100) 透明度    
+156.	bgRatio number (0-100) 多个颜色值所占的比率    
+157.	bgAngle number (0-360) 角度    
+158.	bgSWF string 背景flash，但必须在同一个域下    
+159.	bgSWFAlpha number (0-100)    
+160.	canvasBgColor Color 区域背景颜色    
+161.	canvasBgAlpha    
+162.	canvasBgRatio    
+163.	canvasBgAngle    
+164.	canvasBorderColor    
+165.	canvasBorderThickness number (0-5) 边框厚度    
+166.	canvasBorderAlpha    
+167.	showBorder bool    
+168.	borderColor    
+169.	borderThickness number In Pixels    
+170.	borderAlpha    
+171.	Data Plot Cosmetics    
+172.	showPlotBorder bool    
+173.	plotBorderColor    
+174.	plotBorderThickness (0-5)pixels    
+175.	plotBorderAlpha    
+176.	plotBorderDashed bool 是否使用虚线    
+177.	plotBorderDashLen number in pixels    
+178.	plotBorderDashGap number in pixels    
+179.	plotFillAngle number 0-360   
+180.	plotFillRatio number 0-100   
+181.	plotFillAlpha    
+182.	plotGradientColor color 渐变颜色    
+183.	showShadow bool 是否显示阴影    
+184.	plotFillColor    
+185.	Anchors    
+186.	drawAnchors bool    
+187.	anchorSides Number 3-20 边数    
+188.	anchorRadius number in pixels 半径    
+189.	anchorBorderColor color hex code    
+190.	anchorBorderThickness number in pixels    
+191.	anchorBgColor    
+192.	anchorAlpha    
+193.	anchorBgAlpha    
+194.	Divisional Lines & Grids    
+195.	numDivLines number >0 水平区域线数量    
+196.	divLineColor    
+197.	divLineThickness number 1-5   
+198.	divLineAlpha    
+199.	divLineIsDashed bool 虚线    
+200.	divLineDashLen    
+201.	divLineDashGap    
+202.	zeroPlaneColor    
+203.	zeroPlaneThickness    
+204.	zeroPlaneAlpha    
+205.	showAlternateHGridColor    
+206.	alternateHGridColor    
+207.	alternateHGridAlpha    
+208.	numVDivLines    
+209.	vDivLineColor    
+210.	vDivLineThickness    
+211.	vDivLineAlpha    
+212.	vDivLineIsDashed    
+213.	vDivLineDashLen    
+214.	vDivLineDashGap    
+215.	showAlternateVGridColor    
+216.	alternateVGridColor    
+217.	alternateVGridAlpha    
+218.	Number Formatting    
+219.	formatNumber bool    
+220.	formatNumberScale bool    
+221.	defaultNumberScale string    
+222.	numberScaleUnit string    
+223.	numberScaleValue string    
+224.	numberPrefix string    
+225.	numberSuffix string    
+226.	decimalSeparator string    
+227.	thousandSeparator string    
+228.	inDecimalSeparator string    
+229.	inThousandSeparator string    
+230.	decimals number 0-10   
+231.	forceDecimals bool    
+232.	yAxisValueDecimals number 0-10   
+233.	Font Properties    
+234.	baseFont    
+235.	baseFontSize number 0-72   
+236.	baseFontColor    
+237.	outCnvBaseFont cnv canvas    
+238.	outCnvBaseFontSize    
+239.	outCnvBaseFontColor    
+240.	Tool-tip    
+241.	showToolTip bool    
+242.	toolTipBgColor    
+243.	toolTipBorderColor    
+244.	toolTipSepChar    
+245.	Chart Padding & Margins    
+246.	captionPadding    
+247.	xAxisNamePadding    
+248.	yAxisNamePadding    
+249.	yAxisValuesPadding    
+250.	labelPadding    
+251.	valuePadding    
+252.	chartLeftMargin    
+253.	chartRightMargin    
+254.	chartTopMargin    
+255.	chartBottomMargin    
+256.	canvasPadding    
+257.	set element    
+258.	label string    
+259.	value number    
+260.	color color hex code    
+261.	link string    
+262.	toolText string    
+263.	showLavel    
+264.	showValue    
+265.	dashed    
+266.	alpha    
+267.	anchorSides    
+268.	anchorRadius    
+269.	anchorBorderColor    
+270.	anchorBorderThickness    
+271.	anchorBgColor    
+272.	anchorAlpha    
+273.	anchorBgAlpha    
+274.	Vertical data separator lines    
+275.	   <set label=’Dec 2005′ value=’36556′ />    
+276.	   <vLine color=’FF5904′ thickness=’2′ />    
+277.	   <set label=’Jan 2006′ value=’45456′ />    
+278.	color    
+279.	thickness    
+280.	alpha    
+281.	dashed    
+282.	dashLen    
+283.	dashGap    
+284.	Trend-lines    
+285.	   <trendLines>    
+286.	   <line startValue=’895′ color=’FF0000′ displayvalue=’Average’ />     
+287.	   </trendLines>    
+288.	startValue    
+289.	endValue    
+290.	displayValue    
+291.	color    
+292.	isTrendZone    
+293.	showOnTop    
+294.	thickness    
+295.	alpha    
+296.	dashed    
+297.	dashLen
+

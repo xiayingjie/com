@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ttpod type="search">
+  <group id="searchlist" >
+   <#if musicList??> 
+   		<#list musicList as music > 
+            <item title="${music.musicName}" desc="${music.singer}" url="${music.url}" type="openxml"/>
+        </#list>
+   </#if>
+  </group>
+</ttpod>
