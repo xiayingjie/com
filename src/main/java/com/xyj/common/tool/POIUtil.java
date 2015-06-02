@@ -464,7 +464,7 @@ public class POIUtil {
      */
     public static void main(String[] args) throws Exception {
         // ----------读---------------
-        showDaoruShuju();
+        //showDaoruShuju();
         // // -------------插入---------------------
         // Workbook wb = POIUtil.createWorkbook();
         // //创建Sheet
@@ -531,7 +531,9 @@ public class POIUtil {
         Cell c2 = createCell(style1, row1, (short) 1);
         c2.setCellValue("第一行第二 列");
 
-    POIUtil.createExcel(wb, "~/text.xlsx");
+        mergeCell(s,1,2 ,1,2);
+
+    POIUtil.createExcel(wb, "/Users/xiayingjie/Downloads/text.xlsx");
 
     }
 
