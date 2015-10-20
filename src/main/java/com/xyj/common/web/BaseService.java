@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class BaseService<T> {
 
-    protected abstract BaseDAO getDAO();
+    public abstract BaseDAO getDAO();
 
     /**
      * 查询所有的对象
@@ -63,7 +63,7 @@ public abstract class BaseService<T> {
      * @param object
      * @return
      */
-    public void save(T object) {
-        getDAO().save(object);
+    public Object save(T object) {
+       return getDAO().save(object);
     }
 }

@@ -5,16 +5,18 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.xyj.common.tool.upload.spring.FileMeta;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @classDescription:bean 将bean转换成map
@@ -23,6 +25,90 @@ import java.util.Set;
  */
 
 public class BeanInfoUtil {
+    static  Gson gson = new GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation() //不导出实体中没有用@Expose注解的属性
+            .enableComplexMapKeySerialization() //支持Map的key为复杂对象的形式
+            .serializeNulls()
+            .setDateFormat("yyyy-MM-dd")//时间转化为特定格式
+//             .setDateFormat(DateFormat.LONG)
+                    // .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)//会把字段首字母大写,注:对于实体上使用了@SerializedName注解的不会生效.
+            .setPrettyPrinting() //对json结果格式化.
+            .setVersion(1.0)    //有的字段不是一开始就有的,会随着版本的升级添加进来,那么在进行序列化和返序列化的时候就会根据版本号来选择是否要序列化.
+                    //@Since(版本号)能完美地实现这个功能.还的字段可能,随着版本的升级而删除,那么
+                    //@Until(版本号)也能实现这个功能,GsonBuilder.setVersion(double)方法需要调用.
+            .create();
+
+    /**
+     * 将bean 转换成map对象包含对象
+     *
+     * @param bean
+     * @param include 需要包含的对象 包含替换“old:new”用逗号隔开 "name,content:Content"
+     * @return
+     */
+    public static Map<String, Object> bean2mapi(Object bean, String include) {
+        Map<String, Object> map = Maps.newHashMap();
+        try {
+            Map<String,String>replaceMap=new HashMap<String,String>();
+            String[]is=null;
+            if (!StringUtils.isBlank(include)) {
+                is = StringUtils.split(include, ",");
+            }
+            for(String s:is){
+                if(s.indexOf(":")>-1) {
+                    String[] rs = StringUtils.split(s, ":");
+                    replaceMap.put(rs[0],rs[1]);
+                }else{
+                    replaceMap.put(s,null);
+                }
+            }
+
+
+            BeanInfo b = Introspector.getBeanInfo(bean.getClass());
+            PropertyDescriptor[] propertyDescriptors = b.getPropertyDescriptors();
+
+            for (PropertyDescriptor p : propertyDescriptors) {
+                String key=p.getName();
+                if (!key.equals("class")) {
+
+                    Method readMethod = p.getReadMethod();
+                    Object result = readMethod.invoke(bean);
+
+                    if(null!=replaceMap) {
+                        if(replaceMap.containsKey(key)) {
+                            key = replaceMap.get(key)==null?key:replaceMap.get(key);
+
+
+                            boolean tag=false;
+                            List list=null;
+                            //用来解决数组进行传递参数的问题
+                            if(result instanceof String){
+                                if(((String) result).startsWith("[") && ((String) result).endsWith("]")){
+                                    String res=EncodeUtil.htmlUnescape((String) result);
+                                    list=gson.fromJson(res, new TypeToken<ArrayList>() {
+                                    }.getType());
+                                    tag=true;
+                                }
+                            }
+                            if(tag){
+                                map.put(key,list);
+                            }else {
+                                map.put(key, result);
+                            }
+
+                        }
+                    }
+                    }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+
+        return map;
+
+    }
 
 
     /**
@@ -68,12 +154,28 @@ public class BeanInfoUtil {
                         Method readMethod = p.getReadMethod();
                         Object result = readMethod.invoke(bean);
 
+
                         if(null!=replaceMap) {
                             if(replaceMap.containsKey(key)) {
                                 key = replaceMap.get(key);
                             }
                         }
-                        map.put(key,result);
+                        boolean tag=false;
+                        List list=null;
+                        //用来解决数组进行传递参数的问题
+                        if(result instanceof String){
+                            if(((String) result).startsWith("[") && ((String) result).endsWith("]")){
+                                String res=EncodeUtil.htmlUnescape((String) result);
+                                list=gson.fromJson(res, new TypeToken<ArrayList>() {
+                                }.getType());
+                                tag=true;
+                            }
+                        }
+                        if(tag){
+                            map.put(key,list);
+                        }else {
+                            map.put(key, result);
+                        }
 
                     }
                 }
@@ -156,7 +258,99 @@ public class BeanInfoUtil {
         }
         return list;
     }
-    public static void main(String[] args) {
 
+
+    /**
+     * 只支持基本类型
+     * @param src
+     * @param desc
+     * @return
+     */
+    public static  Object bean2bean(Object src,Object desc){
+        return bean2bean(src,desc,null);
+    }
+    /**
+     * 只支持基本类型
+     * @param src
+     * @param desc
+     * @param exclude "user,name"  不包含某些属性
+     * @return
+     */
+    public static  Object bean2bean(Object src,Object desc,String exclude){
+        try {
+            BeanInfo srcBean = Introspector.getBeanInfo(src.getClass());
+            BeanInfo descBean = Introspector.getBeanInfo(desc.getClass());
+            PropertyDescriptor[] descPDs = descBean.getPropertyDescriptors();
+            PropertyDescriptor[] srcPDs = srcBean.getPropertyDescriptors();
+
+            Set<String> excludeSet=null;
+            if (!StringUtils.isBlank(exclude)) {
+                String[]es = StringUtils.split(exclude, ",");
+                excludeSet = Sets.newHashSet(es);
+
+            }
+
+            for (PropertyDescriptor dp : descPDs) {
+                String name=dp.getName();
+                if (!name.equals("class") && (excludeSet==null || !excludeSet.contains(name))) {
+
+                    for(PropertyDescriptor sp:srcPDs){
+                        System.out.println(name);
+                        if(name.equals(sp.getName()) ){
+                            Method readMethod = sp.getReadMethod();
+                            Object result = readMethod.invoke(src);
+
+                            if(checkNull(result)) {
+                                Method writeMethod = dp.getWriteMethod();
+                                writeMethod.invoke(desc, result);
+                            }
+                            break;
+                        }
+
+                    }
+                    boolean flag = true;
+
+
+                }
+            }
+        }catch(Exception e){
+        }
+        return desc;
+    }
+
+    /**
+     * 检查对象是否为空
+     * @param result
+     * @return
+     */
+    public static boolean checkNull(Object result){
+        boolean flag=false;
+        if(result instanceof String){
+            flag=!StringUtils.isBlank((String)result);
+        }else if(result instanceof Integer){
+            flag=(int)result!=0?true:false;
+        }else if(result instanceof Long){
+            flag=(long)result!=0L?true:false;
+        }else if(result instanceof Float){
+            flag=(float)result!=0L?true:false;
+        }else if(result instanceof Double){
+            flag=(double)result!=0D?true:false;
+        }else if(null!=result){
+            flag=true;
+        }
+        return flag;
+
+    }
+    public static void main(String[] args) {
+        FileMeta f=new FileMeta();
+        f.setFileName("12323435");
+        f.setFileSize("sdfsdf");
+        f.setFileType("feg");
+        FileMeta f1=new FileMeta();
+        Map map=bean2mapi(f,"fileName,fileSize:1111");
+        System.out.println(map);
+        String ss ="se";
+//        String[]so=ss.split(ss);
+//        System.out.println(so[0]);
     }
 }

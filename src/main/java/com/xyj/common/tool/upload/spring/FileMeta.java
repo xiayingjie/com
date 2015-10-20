@@ -8,6 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * @createTime:13-10-29 下午5:50
  */
 //ignore "bytes" when return json format
+
 @JsonIgnoreProperties({"bytes"})
 public class FileMeta {
     private String fileName;
@@ -16,6 +17,10 @@ public class FileMeta {
 
     private byte[] bytes;
 
+
+    public FileMeta(){
+
+    }
     public String getFileName() {
         return fileName;
     }
@@ -47,4 +52,6 @@ public class FileMeta {
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
+
+
 }

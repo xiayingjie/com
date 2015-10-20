@@ -7,10 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @classDescription:spring支持redis的工具类
@@ -60,6 +57,125 @@ public class RedisSpringUtil {
     }
 
 
+
+    /**
+     * zset添加
+     * @param key
+     * @param v
+     * @param value
+     * @return
+     */
+    public Boolean zAdd(final String key, final double v, final Object value) {
+        return redisTemplate.execute(new RedisCallback<Boolean>() {
+            @Override
+            public Boolean doInRedis(RedisConnection connection)
+                    throws DataAccessException {
+                return connection.zAdd(serializeKey(key), v, serializeValue(value));
+            }
+        });
+    }
+
+    /**
+     * zset 删除
+     * @param key
+     * @param value
+     * @return
+     */
+    public Boolean zDelete(final String key, final Object value) {
+        return redisTemplate.execute(new RedisCallback<Boolean>() {
+            @Override
+            public Boolean doInRedis(RedisConnection connection)
+                    throws DataAccessException {
+                return connection.zRem(serializeKey(key), serializeValue(value));
+            }
+        });
+    }
+
+    /**
+     * 按score最大值排序
+     * @param key
+     * @param begin
+     * @param end
+     * @return
+     */
+    public Set<Object> zRevRange(final String key,long begin,long end) {
+        return redisTemplate.execute(new RedisCallback<Set<Object>>() {
+            @Override
+            public Set<Object> doInRedis(RedisConnection connection)
+                    throws DataAccessException {
+
+                Set<byte[]> set=connection.zRevRange(serializeKey(key), begin, end);
+                Set<Object> rangeSet = new<Object> HashSet(set.size());
+
+                if (null != set) {
+                    for (byte[] value : set) {
+                        if (value != null)
+                            rangeSet.add(deserializeValue(value));
+                    }
+                }
+                return rangeSet.size() > 0 ? rangeSet : null;
+            }
+        });
+    }
+
+    /**
+     * 获取zset的交集
+     * @return
+     */
+    public long zInter(final String newKey,final String key,final String key1) {
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            @Override
+            public Long doInRedis(RedisConnection connection)
+                    throws DataAccessException {
+                return connection.zInterStore(serializeKey(newKey),serializeKey(key), serializeKey(key1));
+
+            }
+        });
+    }
+
+
+
+    /**
+     * 获取zset 的某个key的数量
+     * @param key
+     * @return
+     */
+    public Long zCard(final String key) {
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            @Override
+            public Long doInRedis(RedisConnection connection)
+                    throws DataAccessException {
+               return connection.zCard(serializeKey(key));
+
+            }
+        });
+    }
+
+
+    /**
+     * 获取set的交集
+     * @return
+     */
+    public Set<Object> sInter(final String key,final String key1) {
+        return redisTemplate.execute(new RedisCallback<Set<Object>>() {
+            @Override
+            public Set<Object> doInRedis(RedisConnection connection)
+                    throws DataAccessException {
+
+                Set <byte[]> set = connection.sInter(serializeKey(key),serializeKey(key1));
+                Set<Object> rangeSet = new<Object> HashSet(set.size());
+
+                if (null != set) {
+                    for (byte[] value : set) {
+                        if (value != null)
+                            rangeSet.add(deserializeValue(value));
+                    }
+                }
+                return rangeSet.size() > 0 ? rangeSet : null;
+            }
+        });
+    }
+
     /**
      * 如果存在一个key 的映射关系，则将其从redis 中移除
      * @return 被删除 key 的数量
@@ -72,6 +188,9 @@ public class RedisSpringUtil {
             }
         });
     }
+
+
+
 
     /**
      * <p>将哈希表 key 中的域 field(map键) 的值设为 value</p>
@@ -94,6 +213,8 @@ public class RedisSpringUtil {
             }
         });
     }
+
+
 
     /**
      * 返回给定域的值，当给定域不存在或是给定 key 不存在时，返回 nil

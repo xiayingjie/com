@@ -283,11 +283,9 @@ public class HttpClientUtil {
             } else if ("POST".equalsIgnoreCase(method)) {
                 HttpPost hp = new HttpPost(url);
                 if (formatParams != null) {
-                    //	StringEntity entity = new StringEntity(formatParams);
-                    String json = "{\"method\":\"create\",\"access_token\":\"3fd8824baef81fa4e421de6a630c10e9\",\"params\":{ " +
-                            "\"content\":\"我这是测试啊\" ，\"song_id\":[3],\"is_fav\":true}}";
+                    StringEntity entity = new StringEntity(formatParams);
 
-                    StringEntity entity = new StringEntity(json);
+
                     entity.setContentType("application/x-www-form-urlencoded");
                     hp.setEntity(entity);
 
@@ -465,9 +463,18 @@ public class HttpClientUtil {
         return bytes;
     }
 
+
+
     public static void main(String[] args) throws URISyntaxException,
             ClientProtocolException, IOException {
-        String s = HttpClientUtil.get("http://www.163.com", null);
+        List<NameValuePair> list=new ArrayList<>();
+
+        list.add(new BasicNameValuePair("clientIds","xz1"));
+       list.add(new BasicNameValuePair("clientIds","xz2"));
+
+
+
+        String s = HttpClientUtil.post("http://43.254.55.184//user/listByClientId", list);
         System.out.println(s);
 
 
