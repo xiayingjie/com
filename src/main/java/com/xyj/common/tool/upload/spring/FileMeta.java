@@ -2,6 +2,8 @@ package com.xyj.common.tool.upload.spring;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 /**
  * @classDescription:
  * @author:xiayingjie
@@ -10,7 +12,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 //ignore "bytes" when return json format
 
 @JsonIgnoreProperties({"bytes"})
-public class FileMeta {
+public class FileMeta implements Serializable{
     private String fileName;
     private String fileSize;
     private String fileType;

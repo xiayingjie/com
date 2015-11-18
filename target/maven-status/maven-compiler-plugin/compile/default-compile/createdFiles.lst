@@ -36,6 +36,7 @@ com/xyj/common/web/query/PropertyFilter$PropertyType.class
 com/xyj/common/tool/CookieUtil.class
 com/xyj/common/tool/RedisSpringUtil$15.class
 com/xyj/common/tool/mail/ho/MailHO.class
+com/xyj/common/tool/CustomerException.class
 com/xyj/common/tool/Dom4jUtil.class
 com/xyj/common/tool/RedisSpringUtil$2.class
 com/xyj/common/tool/BeanInfoUtil$2.class

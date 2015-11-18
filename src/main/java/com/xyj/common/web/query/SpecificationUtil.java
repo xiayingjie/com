@@ -69,6 +69,13 @@ public class SpecificationUtil {
                               case GE:
                                   predicates.add(cb.greaterThanOrEqualTo(path, (Comparable) value));
                                   break;
+                              case IN:
+                                  predicates.add(path.in(String.valueOf(value).split(",")));
+                                  break;
+                              case NIN:
+                                  //暂时没实现
+                                  predicates.add(null);
+                                  break;
                           }
 
 

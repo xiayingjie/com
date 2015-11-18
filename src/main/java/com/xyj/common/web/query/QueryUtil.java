@@ -38,13 +38,25 @@ public class QueryUtil {
 			matchStr=">=";
 		} else if (PropertyFilter.MatchType.GT.equals(pf.getMatchType())) {
 			matchStr=">";
+		}else if (PropertyFilter.MatchType.IN.equals(pf.getMatchType())) {
+			matchStr="in";
+		}else if (PropertyFilter.MatchType.NIN.equals(pf.getMatchType())) {
+			matchStr="not in";
 		}
 		//获取sql查询属性
 		if(PropertyFilter.PropertyType.S.getValue()==pf.getPropertyType()
 		  ||PropertyFilter.PropertyType.D.getValue()==pf.getPropertyType() 
 		){
-			pf.setPropertyValue("'"+pf.getPropertyValue()+"'");
+		   //判断in或者not in
+			if(PropertyFilter.MatchType.IN.equals(pf.getMatchType()) ||
+				PropertyFilter.MatchType.NIN.equals(pf.getMatchType())) {
+				pf.setPropertyValue("(" + pf.getPropertyValue() + ")");
+			}else {
+				pf.setPropertyValue("'" + pf.getPropertyValue() + "'");
+			}
 		}
+
+
 		filterStr=" "+pf.getPropertyName()+" "+matchStr+" "+pf.getPropertyValue();
 		return filterStr;
 	}
@@ -70,7 +82,7 @@ public class QueryUtil {
 					fragment.append("  and  ");
 					fragment.append(toSqlStringByField(pf));
 				}
-				
+
 			}
 		}
 		return fragment.toString();

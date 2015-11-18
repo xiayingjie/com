@@ -20,7 +20,7 @@ public class PropertyFilter {
 
 	// 属性比较类型.依次分别是等于，like,小于，大于，小于等于，大于等于
 	public enum MatchType {
-		EQ, LIKE, LT, GT, LE, GE;
+		EQ, LIKE, LT, GT, LE, GE , IN , NIN ;
 	}
 
 	// 属性数据类型. 
@@ -66,13 +66,13 @@ public class PropertyFilter {
 			matchType = Enum.valueOf(MatchType.class, matchTypeCode);
 
 		} catch (RuntimeException e) {
-			throw new IllegalArgumentException("filter名称" + filterName + "没有按规则编写,无法得到属性比较类型.", e);
+			throw new IllegalArgumentException("filter名称" + filterName + "没有按规则编写,无法得到属性比较类型."+matchTypeCode, e);
 		}
 
 		try {
 			propertyType = Enum.valueOf(PropertyType.class, propertyTypeCode).getValue();
 		} catch (RuntimeException e) {
-			throw new IllegalArgumentException("filter名称" + filterName + "没有按规则编写,无法得到属性值类型.", e);
+			throw new IllegalArgumentException("filter名称" + filterName + "没有按规则编写,无法得到属性值类型."+propertyTypeCode, e);
 		}
 
 		propertyName = StringUtils.substringBefore(filterName, "__").trim();

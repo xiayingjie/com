@@ -1,7 +1,6 @@
 package com.xyj.common.tool;
 
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -9,7 +8,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.xyj.common.tool.upload.spring.FileMeta;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.beans.BeanInfo;
@@ -121,7 +119,7 @@ public class BeanInfoUtil {
      * @return
      */
     public static Map<String, Object> bean2map(Object bean, String exclude,Map<String,Object> includeMap,String replace) {
-        Map<String, Object> map = Maps.newHashMap();
+        Map<String, Object> map = Maps.newLinkedHashMap();
         try {
             Set<String> excludeSet= null;
             Map<String,String>replaceMap=null;
@@ -131,7 +129,7 @@ public class BeanInfoUtil {
             }
             if (!StringUtils.isBlank(replace)) {
                 String[]rss = StringUtils.split(replace, ",");
-                replaceMap=Maps.newHashMap();
+                replaceMap=Maps.newLinkedHashMap();
                 for(String s:rss){
                     String[] rs= StringUtils.split(s, ":");
                     replaceMap.put(rs[0],rs[1]);
@@ -283,19 +281,20 @@ public class BeanInfoUtil {
             PropertyDescriptor[] descPDs = descBean.getPropertyDescriptors();
             PropertyDescriptor[] srcPDs = srcBean.getPropertyDescriptors();
 
+            //不覆盖的属性
             Set<String> excludeSet=null;
             if (!StringUtils.isBlank(exclude)) {
                 String[]es = StringUtils.split(exclude, ",");
                 excludeSet = Sets.newHashSet(es);
 
             }
-
+            //循环遍历属性
             for (PropertyDescriptor dp : descPDs) {
                 String name=dp.getName();
                 if (!name.equals("class") && (excludeSet==null || !excludeSet.contains(name))) {
 
                     for(PropertyDescriptor sp:srcPDs){
-                        System.out.println(name);
+
                         if(name.equals(sp.getName()) ){
                             Method readMethod = sp.getReadMethod();
                             Object result = readMethod.invoke(src);
@@ -308,12 +307,11 @@ public class BeanInfoUtil {
                         }
 
                     }
-                    boolean flag = true;
-
 
                 }
             }
         }catch(Exception e){
+            e.printStackTrace();
         }
         return desc;
     }
@@ -347,8 +345,17 @@ public class BeanInfoUtil {
         f.setFileSize("sdfsdf");
         f.setFileType("feg");
         FileMeta f1=new FileMeta();
-        Map map=bean2mapi(f,"fileName,fileSize:1111");
-        System.out.println(map);
+        f1.setFileName("good");
+        f1.setFileSize("bady");
+        FileMeta f3=(FileMeta)bean2bean(f, f1);
+        System.out.println(f.getFileName());
+        System.out.println(f1.getFileName());
+        System.out.printf("======");
+        System.out.println(f.getFileSize());
+        System.out.println(f1.getFileSize());
+        System.out.printf("======");
+        System.out.println(f3.getFileName());
+        System.out.println(f3.getFileSize());
         String ss ="se";
 //        String[]so=ss.split(ss);
 //        System.out.println(so[0]);

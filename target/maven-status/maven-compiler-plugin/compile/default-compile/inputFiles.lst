@@ -1,4 +1,5 @@
 /Users/xiayingjie/Documents/project/java/xyj/src/main/java/com/xyj/common/tool/HttpClientUtil.java
+/Users/xiayingjie/Documents/project/java/xyj/src/main/java/com/xyj/common/tool/CustomerException.java
 /Users/xiayingjie/Documents/project/java/xyj/src/main/java/com/xyj/common/tool/upload/fileupload/FileUploadUtil.java
 /Users/xiayingjie/Documents/project/java/xyj/src/main/java/com/xyj/common/tool/ehcache/EHCacheUtil.java
 /Users/xiayingjie/Documents/project/java/xyj/src/main/java/com/xyj/common/auth/shiro/FormAuthenticationCaptchaFilter.java
